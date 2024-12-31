@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.404.10" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.301" />
+<<<<<<< HEAD:app/src/BookWise.Customer.Infrastructure/BookWise.Customer.Infrastructure.csproj
+    <PackageReference Include="AWSSDK.S3" Version="3.7.410.12" />
+=======
+>>>>>>> 01e020e (Feature/create custumer (#6)):src/BookWise.Customer.Infrastructure/BookWise.Customer.Infrastructure.csproj
+    <PackageReference Include="AWSSDK.SQS" Version="3.7.400.70" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="MessageBus\Clients\" />
+    <Folder Include="MessageBus\Event\" />
+    <Folder Include="MessageBus\IntegrationEvents\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\BookWise.Customer.Domain\BookWise.Customer.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
