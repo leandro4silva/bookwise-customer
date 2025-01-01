@@ -25,11 +25,7 @@ public class Startup
         services.AddRepositories(appConfigs);
         services.AddServices();
         services.AddApplication();
-<<<<<<< HEAD:app/src/BookWise.Customer.Api/Startup.cs
         services.AddAwsServices(builder.Configuration);
-=======
-        services.AddAwsServices();
->>>>>>> 01e020e (Feature/create custumer (#6)):src/BookWise.Customer.Api/Startup.cs
 
         services.AddControllers()
             .AddFluentValidation(x => x.AutomaticValidationEnabled = false)

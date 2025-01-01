@@ -10,10 +10,7 @@
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.404.10" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.301" />
-<<<<<<< HEAD:app/src/BookWise.Customer.Infrastructure/BookWise.Customer.Infrastructure.csproj
     <PackageReference Include="AWSSDK.S3" Version="3.7.410.12" />
-=======
->>>>>>> 01e020e (Feature/create custumer (#6)):src/BookWise.Customer.Infrastructure/BookWise.Customer.Infrastructure.csproj
     <PackageReference Include="AWSSDK.SQS" Version="3.7.400.70" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />

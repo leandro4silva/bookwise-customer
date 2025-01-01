@@ -17,17 +17,10 @@ public sealed class AppConfiguration
 
     public string? Environment { get; set; }
 
-<<<<<<< HEAD
+
     public bool IsDevelopment =>
         EnviromentDev.Equals(Environment, StringComparison.OrdinalIgnoreCase);
 
     public bool IsStaging =>
         EnvironmentHom.Equals(Environment, StringComparison.OrdinalIgnoreCase);
-=======
-    public bool IsDevelopment => 
-        EnviromentDev.Equals(Environment, StringComparison.OrdinalIgnoreCase);
-
-    public bool IsStaging => 
-        EnvironmentHom.Equals(Environment,StringComparison.OrdinalIgnoreCase);
->>>>>>> cc8244b (feat: implements audit log)
 }

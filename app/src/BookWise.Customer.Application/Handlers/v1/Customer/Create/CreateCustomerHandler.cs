@@ -19,8 +19,8 @@ namespace BookWise.Customer.Application.Handlers.v1.Customer.Create;
 public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, CreateCustomerResult>
 {
     private readonly ICustomerRepository _customerRepository;
-    private readonly INotificationService _notificationService;
     private readonly ILogger<CreateCustomerHandler> _logger;
+    private readonly INotificationService _notificationService;
     private readonly IMapper _mapper;
     private readonly IEventProcessor _eventProcessor;
     private readonly CreateCustomerSqsConfig _createCustomerSqsConfiguration;
