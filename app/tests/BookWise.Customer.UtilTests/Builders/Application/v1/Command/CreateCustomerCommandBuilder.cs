@@ -18,7 +18,7 @@ public sealed class CreateCustomerCommandBuilder : LazyFakerBuilder<CreateCustom
             .RuleFor(op => op.Street, setter => setter.Address.StreetAddress())
             .RuleFor(op => op.ZipCode, setter => setter.Address.ZipCode());
 
-        var payload = new Faker<Payload>()
+        var payload = new Faker<PayloadCreateCustomer>()
             .RuleFor(op => op.Email, setter => setter.Person.Email)
             .RuleFor(op => op.BirthDate, setter => setter.Person.DateOfBirth)
             .RuleFor(op => op.FullName, setter => setter.Person.FullName)

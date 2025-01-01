@@ -1,5 +1,6 @@
 ﻿using BookWise.Customer.Application.Common.Models;
 using BookWise.Customer.Application.Handlers.v1.Customer.Create;
+using BookWise.Customer.Application.Handlers.v1.Customer.UpdateImage;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,6 +24,18 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post(
         CreateCustomerCommand request, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(request, cancellationToken);
+
+        return response is not null ? CreatedAtAction(nameof(Post), response) : NoContent();
+    }
+
+    [HttpPatch("{id}/image")]
+    [ProducesResponseType(typeof(BaseResponse<UpdateImageCustomerResult>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Patch(
+        UpdateImageCustomerCommand request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);
 

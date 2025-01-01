@@ -8,10 +8,10 @@ namespace BookWise.Customer.Application.Handlers.v1.Customer.Create;
 public sealed class CreateCustomerCommand : IRequest<CreateCustomerResult>
 {
     [FromBody]
-    public Payload? Payload { get; set; }
+    public PayloadCreateCustomer? Payload { get; set; }
 }
 
-public sealed class Payload
+public sealed class PayloadCreateCustomer
 {
     [JsonPropertyName("fullName")]
     public string? FullName { get; set; }
