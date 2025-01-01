@@ -60,7 +60,7 @@ public class CreateCustomerHandlerTests
         );
     }
 
-    [Fact(DisplayName = nameof(CreateCustomerHandler) + nameof(CreateCustomerHandler.Handle) + " Success")]
+    [Fact(DisplayName = nameof(CreateCustomerHandler) + nameof(CreateCustomerHandler.Handle) + ": Success")]
     public async Task Should_Return_CustomerId_When_Success()
     {
         //Arrange
