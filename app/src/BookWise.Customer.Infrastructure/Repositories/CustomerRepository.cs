@@ -22,8 +22,8 @@ public class CustomerRepository : ICustomerRepository
         return await _dynamoDBContext.LoadAsync<Domain.Entities.Customer>(id, cancellationToken);
     }
 
-    public Task Update(Domain.Entities.Customer customer, CancellationToken cancellationToken)
+    public async Task Update(Domain.Entities.Customer customer, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        await _dynamoDBContext.SaveAsync<Domain.Entities.Customer>(customer, cancellationToken);
     }
 }
