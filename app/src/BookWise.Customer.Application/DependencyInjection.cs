@@ -1,4 +1,5 @@
 ﻿using BookWise.Customer.Application.Handlers.v1.Customer.Create;
+using BookWise.Customer.Application.Handlers.v1.Customer.UpdateImage;
 using BookWise.Customer.Application.Mappers;
 using FluentValidation;
 using MediatR;
@@ -15,6 +16,7 @@ public static class DependencyInjection
         services.AddMediatR(typeof(CreateCustomerHandler));
         services.AddAutoMapperProfiles();
         services.AddValidatorsFromAssembly(typeof(CreateCustomerValidator).Assembly);
+        services.AddValidatorsFromAssembly(typeof(UpdateImageCustomerCommand).Assembly);
 
         #endregion
 

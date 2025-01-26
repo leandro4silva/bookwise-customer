@@ -1,5 +1,7 @@
 ﻿using BookWise.Customer.Infrastructure.LogAudit.Dtos;
 using System.Diagnostics.CodeAnalysis;
+using Amazon.S3;
+using BookWise.Customer.Infrastructure.Buckets.Dtos;
 
 namespace BookWise.Customer.Infrastructure.Configurations;
 
@@ -15,9 +17,10 @@ public sealed class AppConfiguration
 
     public UserImageConfig? UserImage { get; set; }
 
+    public AwsS3Config? AwsS3Config { get; set; }
+
     public string? Environment { get; set; }
-
-
+    
     public bool IsDevelopment =>
         EnviromentDev.Equals(Environment, StringComparison.OrdinalIgnoreCase);
 

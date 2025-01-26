@@ -30,4 +30,8 @@
     <ProjectReference Include="..\BookWise.Customer.UtilTests\BookWise.Customer.UtilTests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\v1\Handlers\Customer\UpdateImage\" />
+  </ItemGroup>
+
 </Project>

@@ -4,7 +4,7 @@ using BookWise.Customer.Domain.ValueObjects;
 
 namespace BookWise.Customer.Application.Mappers;
 
-public sealed class AddressMapper : IValueConverter<CreateCustomerCommand, CustomerAddress>
+public sealed class AddressRequestMapper : IValueConverter<CreateCustomerCommand, CustomerAddress>
 {
     public CustomerAddress Convert(CreateCustomerCommand sourceMember, ResolutionContext context)
     {

@@ -2,7 +2,6 @@
 using BookWise.Customer.Application.Helpers;
 using BookWise.Customer.Domain.Repositories;
 using BookWise.Customer.Infrastructure.Buckets.Abstractions;
-using DomainEntity = BookWise.Customer.Domain.Entities;
 using BookWise.Customer.Infrastructure.LogAudit.Abstractions;
 using BookWise.Customer.Infrastructure.LogAudit.Dtos;
 using BookWise.Customer.Infrastructure.LogAudit.Enums;
