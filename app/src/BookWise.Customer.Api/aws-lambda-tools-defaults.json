@@ -7,7 +7,7 @@
   ],
   "configuration": "Release",
   "function-name": "bookwise-customer",
-  "function-momory-size": 256,
+  "function-memory-size": 256,
   "function-runtime": "dotnet6",
   "function-timeout": 30,
   "function-handler": "BookWise.Customer.Api::BookWise.Customer.Api.LambdaEntryPoint::FunctionHandlerAsync",

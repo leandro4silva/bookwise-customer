@@ -1,9 +1,8 @@
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.AspNetCoreServer;
 using Amazon.Lambda.Core;
-using BookWise.Customer.Api;
 
-namespace BookWise.Api;
+namespace BookWise.Customer.Api;
 
 public class LambdaEntryPoint : APIGatewayProxyFunction
 {
@@ -18,9 +17,5 @@ public class LambdaEntryPoint : APIGatewayProxyFunction
         Environment.SetEnvironmentVariable("LAMBDA_VERSION", lambdaContext.FunctionVersion);
 
         return base.FunctionHandlerAsync(request, lambdaContext);
-    }
-
-    protected override void Init(IHostBuilder builder)
-    {
     }
 }

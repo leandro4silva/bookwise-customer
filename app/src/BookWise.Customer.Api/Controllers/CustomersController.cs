@@ -41,4 +41,12 @@ public class CustomersController : ControllerBase
 
         return response is not null ? CreatedAtAction(nameof(Post), response) : NoContent();
     }
+    
+    [HttpGet]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Get(CancellationToken cancellationToken)
+    {
+        return Ok("Ok");
+    }
 }
