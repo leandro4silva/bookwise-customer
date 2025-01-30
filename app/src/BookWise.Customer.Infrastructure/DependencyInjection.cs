@@ -1,8 +1,12 @@
-﻿using Amazon.DynamoDBv2;
+﻿using Amazon.CognitoIdentityProvider;
+using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.S3;
 using Amazon.SQS;
 using BookWise.Customer.Domain.Repositories;
+using BookWise.Customer.Infrastructure.Auths.Abstractions;
+using BookWise.Customer.Infrastructure.Auths.Dtos;
+using BookWise.Customer.Infrastructure.Auths.Services;
 using BookWise.Customer.Infrastructure.Buckets.Abstractions;
 using BookWise.Customer.Infrastructure.Buckets.Dtos;
 using BookWise.Customer.Infrastructure.Buckets.Services;
@@ -28,6 +32,7 @@ public static class DependencyInjection
     {
         AddDynamoDb(services);
         AddS3Bucket(services);
+        AddAuthCognito(services);
 
         services.AddScoped<ICustomerRepository, CustomerRepository>();
 
@@ -44,6 +49,7 @@ public static class DependencyInjection
     {
         services.AddAWSService<IAmazonSQS>();
         services.AddAWSService<IAmazonS3>();
+        services.AddAWSService<IAmazonCognitoIdentityProvider>();
 
         services.AddSingleton<IPublisher, AwsSQSClient>();
         services.AddScoped<IBucketS3Service, BucketS3Service>();
@@ -54,6 +60,7 @@ public static class DependencyInjection
         services.Configure<AuditoriaConfig>(configuration.GetSection(nameof(AuditoriaConfig)));
         services.Configure<UserImageConfig>(configuration.GetSection(nameof(UserImageConfig)));
         services.Configure<AwsS3Config>(configuration.GetSection(nameof(AwsS3Config)));
+        services.Configure<CognitoConfig>(configuration.GetSection(nameof(CognitoConfig)));
 
         return services;
     }
@@ -69,6 +76,13 @@ public static class DependencyInjection
     private static IServiceCollection AddS3Bucket(this IServiceCollection services)
     {
         services.AddScoped<IAmazonS3, AmazonS3Client>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddAuthCognito(this IServiceCollection services)
+    {
+        services.AddScoped<ICognitoService, CognitoService>();
 
         return services;
     }

@@ -88,6 +88,9 @@ public class Startup
         app.UseSwagger();
         app.UseSwaggerUI();
 
+
+        app.UseMiddleware<ValidationMiddleware>();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

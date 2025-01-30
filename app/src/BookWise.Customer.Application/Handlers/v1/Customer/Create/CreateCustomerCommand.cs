@@ -21,6 +21,9 @@ public sealed class PayloadCreateCustomer
 
     [JsonPropertyName("birthDate")]
     public DateTime BirthDate { get; set; }
+    
+    [JsonPropertyName("password")]
+    public string? Password { get; set; }
 
     [JsonPropertyName("phoneNumber")]
     public string? PhoneNumber { get; set; }

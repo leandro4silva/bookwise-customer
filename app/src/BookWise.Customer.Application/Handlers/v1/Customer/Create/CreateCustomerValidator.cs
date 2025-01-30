@@ -15,6 +15,10 @@ public sealed class CreateCustomerValidator : AbstractValidator<CreateCustomerCo
             .NotEmpty()
             .NotNull()
             .WithName("fullName");
+        
+        RuleFor(x => x.Payload!.Password)
+            .NotEmpty()
+            .MinimumLength(8);
 
         RuleFor(x => x.Payload!.BirthDate)
             .NotEmpty()

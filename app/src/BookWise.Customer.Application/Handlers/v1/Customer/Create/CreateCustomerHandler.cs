@@ -12,13 +12,13 @@ using Microsoft.Extensions.Options;
 using BookWise.Customer.Infrastructure.LogAudit.Dtos;
 using BookWise.Customer.Infrastructure.LogAudit.Enums;
 using System.Text.Json;
+using BookWise.Customer.Infrastructure.Auths.Abstractions;
 using BookWise.Customer.Infrastructure.LogAudit.Abstractions;
 
 namespace BookWise.Customer.Application.Handlers.v1.Customer.Create;
 
 public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, CreateCustomerResult>
 {
-    private readonly ICustomerRepository _customerRepository;
     private readonly ILogger<CreateCustomerHandler> _logger;
     private readonly INotificationService _notificationService;
     private readonly IMapper _mapper;
@@ -26,18 +26,18 @@ public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerComman
     private readonly CreateCustomerSqsConfig _createCustomerSqsConfiguration;
     private readonly UserImageConfig _userImageConfig;
     private readonly ILogAuditService _logAuditService;
+    private readonly ICognitoService _cognitoService;
 
     public CreateCustomerHandler(
-        ICustomerRepository customerRepository,
         INotificationService notificationService,
         ILogger<CreateCustomerHandler> logger,
         IMapper mapper,
         IEventProcessor eventProcessor,
         IOptionsMonitor<CreateCustomerSqsConfig> createCustomerSqsConfiguration,
         IOptionsMonitor<UserImageConfig> userImageConfig,
-        ILogAuditService logAuditService)
+        ILogAuditService logAuditService,
+        ICognitoService cognitoService)
     {
-        _customerRepository = customerRepository;
         _notificationService = notificationService;
         _mapper = mapper;
         _logger = logger;
@@ -45,6 +45,7 @@ public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerComman
         _createCustomerSqsConfiguration = createCustomerSqsConfiguration.CurrentValue;
         _userImageConfig = userImageConfig.CurrentValue;
         _logAuditService = logAuditService;
+        _cognitoService = cognitoService;
     }
 
     public async Task<CreateCustomerResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
@@ -64,9 +65,9 @@ public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerComman
             var customerCreatedEvent = _mapper.Map<CustomerCreated>(customer);
 
             customer.CreatedAddEvent(customerCreatedEvent);
-
-            await _customerRepository.AddAsync(customer, cancellationToken);
-
+            
+            await _cognitoService.RegisterCustomerAsync(customer, cancellationToken);
+            
             _eventProcessor.Process(customer.Events, _createCustomerSqsConfiguration.SqsQueueUrl!, cancellationToken);
         }
         catch (Exception ex)

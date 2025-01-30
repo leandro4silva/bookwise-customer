@@ -15,6 +15,7 @@ public sealed class CustomerProfile : Profile
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Payload!.FullName))
             .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.Payload!.BirthDate))
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Payload!.PhoneNumber))
+            .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Payload!.Password))
             .ForMember(dest => dest.Address, opt => opt.ConvertUsing(new AddressRequestMapper(), src => src));
 
         _ = CreateMap<DomainEntity.Customer, CustomerCreated>()

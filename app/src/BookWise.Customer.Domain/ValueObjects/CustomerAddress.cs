@@ -1,4 +1,6 @@
-﻿namespace BookWise.Customer.Domain.ValueObjects;
+﻿using System.Text.Json;
+
+namespace BookWise.Customer.Domain.ValueObjects;
 
 public sealed class CustomerAddress : IEquatable<CustomerAddress>
 {
@@ -19,6 +21,11 @@ public sealed class CustomerAddress : IEquatable<CustomerAddress>
             City!.Equals(other?.City, StringComparison.OrdinalIgnoreCase) &&
             State!.Equals(other?.State, StringComparison.OrdinalIgnoreCase) &&
             ZipCode!.Equals(other.ZipCode, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public override string ToString()
+    {
+        return JsonSerializer.Serialize(this);
     }
 
     public override int GetHashCode()

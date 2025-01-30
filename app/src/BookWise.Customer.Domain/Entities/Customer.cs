@@ -8,6 +8,9 @@ public sealed class Customer : AggregateRoot
 {
     [DynamoDBProperty]
     public string? Email { get; set; }
+    
+    [DynamoDBProperty] 
+    public string? Password { get; set; }
 
     [DynamoDBProperty]
     public string? Image { get; set; }

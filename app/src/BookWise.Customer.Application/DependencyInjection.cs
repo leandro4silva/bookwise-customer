@@ -1,4 +1,5 @@
-﻿using BookWise.Customer.Application.Handlers.v1.Customer.Create;
+﻿using BookWise.Customer.Application.Common;
+using BookWise.Customer.Application.Handlers.v1.Customer.Create;
 using BookWise.Customer.Application.Handlers.v1.Customer.UpdateImage;
 using BookWise.Customer.Application.Mappers;
 using FluentValidation;
@@ -9,14 +10,17 @@ namespace BookWise.Customer.Application;
 
 public static class DependencyInjection
 {
+    [Obsolete("Obsolete")]
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         #region MediatR
 
         services.AddMediatR(typeof(CreateCustomerHandler));
         services.AddAutoMapperProfiles();
+        
         services.AddValidatorsFromAssembly(typeof(CreateCustomerValidator).Assembly);
-        services.AddValidatorsFromAssembly(typeof(UpdateImageCustomerCommand).Assembly);
+        
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         #endregion
 

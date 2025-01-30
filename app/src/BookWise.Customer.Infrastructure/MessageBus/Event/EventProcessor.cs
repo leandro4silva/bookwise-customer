@@ -11,13 +11,14 @@ namespace BookWise.Customer.Infrastructure.MessageBus.Event;
 public class EventProcessor : IEventProcessor
 {
     private readonly IPublisher _publisher;
-    private readonly string _queueUrl = "https://sqs.sa-east-1.amazonaws.com/535002886987/bookwise-customer-created";
+    private readonly CreateCustomerSqsConfig _createCustomerSqsConfig;
 
     public EventProcessor(
         IPublisher publisher,
         IOptionsMonitor<CreateCustomerSqsConfig> createCustomerSqsConfig)
     {
         _publisher = publisher;
+        _createCustomerSqsConfig = createCustomerSqsConfig.CurrentValue;
     }
 
     public IEnumerable<IEvent> MapAll(IEnumerable<IDomainEvent> events)
@@ -40,7 +41,7 @@ public class EventProcessor : IEventProcessor
 
         foreach (var @event in integrationEvents)
         {
-            await _publisher.PublishAsync(@event, _queueUrl, cancellationToken);
+            await _publisher.PublishAsync(@event, _createCustomerSqsConfig.SqsQueueUrl!, cancellationToken);
         }
     }
 
