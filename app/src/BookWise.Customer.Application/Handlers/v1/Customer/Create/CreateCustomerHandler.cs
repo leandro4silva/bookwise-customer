@@ -59,7 +59,7 @@ public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerComman
     {
         var customer = _mapper.Map<DomainEntity.Customer>(request);
         customer.Image = _userImageConfig.ImageDefaultUrl;
-
+        
         try
         {
             var customerCreatedEvent = _mapper.Map<CustomerCreated>(customer);

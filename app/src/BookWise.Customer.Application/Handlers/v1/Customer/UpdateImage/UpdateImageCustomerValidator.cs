@@ -6,9 +6,9 @@ public class UpdateImageCustomerValidator : AbstractValidator<UpdateImageCustome
 {
     public UpdateImageCustomerValidator()
     {
-        RuleFor(x => x.Id)
+        RuleFor(x => x.Email)
             .NotEmpty()
-            .WithMessage("O campo 'id' não pode estar vazio.");
+            .WithMessage("O campo 'email' não pode estar vazio.");
         
         RuleFor(x => x.Image)
             .NotNull()

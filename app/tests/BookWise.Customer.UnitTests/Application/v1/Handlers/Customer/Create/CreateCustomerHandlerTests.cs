@@ -3,6 +3,7 @@ using BookWise.Customer.Application.Handlers.v1.Customer.Create;
 using BookWise.Customer.Domain.Events;
 using BookWise.Customer.Domain.Events.Abstraction;
 using BookWise.Customer.Domain.Repositories;
+using BookWise.Customer.Infrastructure.Auths.Abstractions;
 using BookWise.Customer.Infrastructure.Configurations;
 using BookWise.Customer.Infrastructure.LogAudit.Abstractions;
 using BookWise.Customer.Infrastructure.MessageBus.Abstraction;
@@ -21,7 +22,7 @@ namespace BookWise.Customer.UnitTests.Application.v1.Handlers.Customer.Create;
 
 public class CreateCustomerHandlerTests
 {
-    private readonly Mock<ICustomerRepository> _customerRepositoryMock;
+    private readonly Mock<ICognitoService> _cognitoServiceMock;
     private readonly Mock<ILogger<CreateCustomerHandler>> _loggerMock;
     private readonly Mock<INotificationService> _notificationServiceMock;
     private readonly Mock<IMapper> _mapperMock;
@@ -33,7 +34,7 @@ public class CreateCustomerHandlerTests
 
     public CreateCustomerHandlerTests()
     {
-        _customerRepositoryMock = new Mock<ICustomerRepository>();
+        _cognitoServiceMock = new Mock<ICognitoService>();
         _loggerMock = new Mock<ILogger<CreateCustomerHandler>>();
         _notificationServiceMock = new Mock<INotificationService>();
         _mapperMock = new Mock<IMapper>();
@@ -49,14 +50,14 @@ public class CreateCustomerHandlerTests
         _createCustomerSqsConfigurationMock.Setup(x => x.CurrentValue).Returns(createCustomerSqsConfig);
 
         _handler = new CreateCustomerHandler(
-            _customerRepositoryMock.Object, 
             _notificationServiceMock.Object, 
             _loggerMock.Object,
             _mapperMock.Object,
             _eventProcessorMock.Object,
             _createCustomerSqsConfigurationMock.Object,
             _userImageConfigMock.Object,
-            _logAuditServiceMock.Object
+            _logAuditServiceMock.Object,
+            _cognitoServiceMock.Object
         );
     }
 
@@ -74,7 +75,7 @@ public class CreateCustomerHandlerTests
         _mapperMock.Setup(x => x.Map<CustomerCreated>(It.IsAny<DomainEntity.Customer>())).Returns(customerCreated);
         _mapperMock.Setup(x => x.Map<CreateCustomerResult>(It.IsAny<DomainEntity.Customer>())).Returns(result);
 
-        _customerRepositoryMock.Setup(x => x.AddAsync(It.IsAny<DomainEntity.Customer>(), It.IsAny<CancellationToken>()));
+        _cognitoServiceMock.Setup(x => x.RegisterCustomerAsync(It.IsAny<DomainEntity.Customer>(), It.IsAny<CancellationToken>()));
 
         _eventProcessorMock.Setup(x => x.Process(It.IsAny<IEnumerable<IDomainEvent>>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
 

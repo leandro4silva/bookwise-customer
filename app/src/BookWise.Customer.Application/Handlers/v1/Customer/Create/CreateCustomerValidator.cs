@@ -9,6 +9,7 @@ public sealed class CreateCustomerValidator : AbstractValidator<CreateCustomerCo
         RuleFor(x => x.Payload!.Email)
             .NotEmpty()
             .NotNull()
+            .EmailAddress()
             .WithName("email");
 
         RuleFor(x => x.Payload!.FullName)
@@ -18,7 +19,12 @@ public sealed class CreateCustomerValidator : AbstractValidator<CreateCustomerCo
         
         RuleFor(x => x.Payload!.Password)
             .NotEmpty()
-            .MinimumLength(8);
+            .MinimumLength(8)
+            .Matches(@"[A-Z]").WithMessage("A senha deve conter pelo menos uma letra maiúscula.")
+            .Matches(@"[a-z]").WithMessage("A senha deve conter pelo menos uma letra minúscula.")
+            .Matches(@"\d").WithMessage("A senha deve conter pelo menos um número.")
+            .Matches(@"[\W_]").WithMessage("A senha deve conter pelo menos um caractere especial (!@#$%^&*).")
+            .WithName("password");
 
         RuleFor(x => x.Payload!.BirthDate)
             .NotEmpty()
@@ -28,6 +34,8 @@ public sealed class CreateCustomerValidator : AbstractValidator<CreateCustomerCo
         RuleFor(x => x.Payload!.PhoneNumber)
             .NotEmpty()
             .NotNull()
+            .Matches(@"^\+55\d{11}$")
+            .WithMessage("O número de telefone deve estar no formato +5519999999999.")
             .WithName("phoneNumber");
 
         RuleFor(x => x.Payload!.Address)

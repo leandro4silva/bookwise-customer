@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BookWise.Customer.Application.Helpers;
-using BookWise.Customer.Domain.Repositories;
 using BookWise.Customer.Infrastructure.Buckets.Abstractions;
 using BookWise.Customer.Infrastructure.LogAudit.Abstractions;
 using BookWise.Customer.Infrastructure.LogAudit.Dtos;
@@ -9,13 +8,13 @@ using BookWise.Customer.Infrastructure.Notifications.Abstraction;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
-using BookWise.Customer.Application.Exceptions;
+using BookWise.Customer.Infrastructure.Auths.Abstractions;
 
 namespace BookWise.Customer.Application.Handlers.v1.Customer.UpdateImage;
 
 public sealed class UpdateImageCustomerHandler : IRequestHandler<UpdateImageCustomerCommand, UpdateImageCustomerResult>
 {
-    private readonly ICustomerRepository _customerRepository;
+    private readonly ICognitoService _cognitoService;
     private readonly ILogger<UpdateImageCustomerHandler> _logger;
     private readonly INotificationService _notificationService;
     private readonly IMapper _mapper;
@@ -23,7 +22,7 @@ public sealed class UpdateImageCustomerHandler : IRequestHandler<UpdateImageCust
     private readonly IBucketS3Service _bucketS3Service;
 
     public UpdateImageCustomerHandler(
-        ICustomerRepository customerRepository, 
+        ICognitoService cognitoService, 
         ILogger<UpdateImageCustomerHandler> logger, 
         INotificationService notificationService, 
         IMapper mapper,
@@ -31,7 +30,7 @@ public sealed class UpdateImageCustomerHandler : IRequestHandler<UpdateImageCust
         IBucketS3Service bucketS3Service
     )
     {
-        _customerRepository = customerRepository;
+        _cognitoService = cognitoService;
         _logger = logger;
         _notificationService = notificationService;
         _mapper = mapper;
@@ -61,15 +60,17 @@ public sealed class UpdateImageCustomerHandler : IRequestHandler<UpdateImageCust
 
             var imageUrl = await _bucketS3Service.UploadFileAsync(tempFilePath, key, cancellationToken);
 
-            var customer = await _customerRepository.GetByIdAsync(request.Id, cancellationToken);
+            var customer = await _cognitoService.GetCustomerAsync(request.Email!, cancellationToken);
 
-            NotFoundException.ThrowIfNull(customer, "Usuario nao encontrado");
-            
-            customer.Image = imageUrl;
+            // NotFoundException.ThrowIfNull(customer, "Usuario nao encontrado");
+            //
+            // customer.Image = imageUrl;
+            //
+            // await _customerRepository.Update(customer, cancellationToken);
 
-            await _customerRepository.Update(customer, cancellationToken);
+            //return _mapper.Map<UpdateImageCustomerResult>(customer);
 
-            return _mapper.Map<UpdateImageCustomerResult>(customer);
+            return new UpdateImageCustomerResult();
         }
         catch (Exception ex)
         {
@@ -77,7 +78,7 @@ public sealed class UpdateImageCustomerHandler : IRequestHandler<UpdateImageCust
             NotificationHelper.Notificar(ex, msg, _notificationService, _logger);
         }
 
-        return _mapper.Map<UpdateImageCustomerResult>(request);
+        return new UpdateImageCustomerResult();
     }
 
     private Task AuditarOperacao(object request)

@@ -27,10 +27,10 @@ public class CustomersController : ControllerBase
     {
         var response = await _mediator.Send(request, cancellationToken);
 
-        return response is not null ? CreatedAtAction(nameof(Post), response) : NoContent();
+        return CreatedAtAction(nameof(Post), response);
     }
 
-    [HttpPatch("{id}/image")]
+    [HttpPatch("image")]
     [ProducesResponseType(typeof(BaseResponse<UpdateImageCustomerResult>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -39,7 +39,7 @@ public class CustomersController : ControllerBase
     {
         var response = await _mediator.Send(request, cancellationToken);
 
-        return response is not null ? CreatedAtAction(nameof(Post), response) : NoContent();
+        return Ok(response);
     }
     
     [HttpGet]

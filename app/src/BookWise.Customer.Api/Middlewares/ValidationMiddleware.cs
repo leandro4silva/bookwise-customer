@@ -24,7 +24,7 @@ public class ValidationMiddleware
         {
             _logger.LogError($"Validation failed: {ex.Message}");
             
-            var errors = ex.Errors.Select(e =>  e.ErrorMessage).ToList();
+            var errors = ex.Errors.Select(e =>  e.ErrorMessage).First();
                 
             httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
             httpContext.Response.ContentType = "application/json";
