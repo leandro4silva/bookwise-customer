@@ -1,4 +1,6 @@
-﻿namespace BookWise.Customer.Infrastructure.Auths.Abstractions;
+﻿using Amazon.CognitoIdentityProvider.Model;
+
+namespace BookWise.Customer.Infrastructure.Auths.Abstractions;
 
 public interface ICognitoService
 {
@@ -8,5 +10,5 @@ public interface ICognitoService
 
     Task<string> LoginCustomerAsync(Domain.Entities.Customer customer, CancellationToken cancellationToken);
     
-    Task<object> GetCustomerAsync(string email, CancellationToken cancellationToken);
+    Task<AdminGetUserResponse> GetCustomerAsync(string email, CancellationToken cancellationToken);
 }

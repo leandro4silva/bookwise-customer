@@ -8,6 +8,7 @@ using BookWise.Customer.Infrastructure.Notifications.Abstraction;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using BookWise.Customer.Application.Exceptions;
 using BookWise.Customer.Infrastructure.Auths.Abstractions;
 
 namespace BookWise.Customer.Application.Handlers.v1.Customer.UpdateImage;
@@ -60,17 +61,11 @@ public sealed class UpdateImageCustomerHandler : IRequestHandler<UpdateImageCust
 
             var imageUrl = await _bucketS3Service.UploadFileAsync(tempFilePath, key, cancellationToken);
 
+            await _cognitoService.UpdateImageCustomerAsync(request.Email!, imageUrl, cancellationToken);
+            
             var customer = await _cognitoService.GetCustomerAsync(request.Email!, cancellationToken);
-
-            // NotFoundException.ThrowIfNull(customer, "Usuario nao encontrado");
-            //
-            // customer.Image = imageUrl;
-            //
-            // await _customerRepository.Update(customer, cancellationToken);
-
-            //return _mapper.Map<UpdateImageCustomerResult>(customer);
-
-            return new UpdateImageCustomerResult();
+            
+            return _mapper.Map<UpdateImageCustomerResult>(customer);
         }
         catch (Exception ex)
         {
