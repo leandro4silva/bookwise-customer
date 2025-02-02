@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using BookWise.Customer.Application.Handlers.v1.Customer.Create;
+using BookWise.Customer.Application.Handlers.v1.Create;
 using BookWise.Customer.Application.Models.Requests;
 using BookWise.Customer.UtilTests.Builders.Base;
 

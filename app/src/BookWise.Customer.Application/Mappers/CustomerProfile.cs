@@ -1,7 +1,8 @@
 ﻿using Amazon.CognitoIdentityProvider.Model;
 using AutoMapper;
-using BookWise.Customer.Application.Handlers.v1.Customer.Create;
-using BookWise.Customer.Application.Handlers.v1.Customer.UpdateImage;
+using BookWise.Customer.Application.Handlers.v1.Create;
+using BookWise.Customer.Application.Handlers.v1.Login;
+using BookWise.Customer.Application.Handlers.v1.UpdateImage;
 using BookWise.Customer.Domain.Events;
 using DomainEntity = BookWise.Customer.Domain.Entities;
 
@@ -34,5 +35,20 @@ public sealed class CustomerProfile : Profile
             .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.UserAttributes.Find(x => x.Name == "birthdate")!.Value))
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.UserAttributes.Find(x => x.Name == "phone_number")!.Value))
             .ForMember(dest => dest.Address, opt => opt.ConvertUsing(new AddressResponseMapper(), src => src));
+        
+        _ = CreateMap<AdminGetUserResponse, DomainEntity.Customer>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Username))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.UserAttributes.Find(x => x.Name == "email")!.Value))
+            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.UserAttributes.Find(x => x.Name == "name")!.Value))
+            .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.UserAttributes.Find(x => x.Name == "birthdate")!.Value))
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.UserAttributes.Find(x => x.Name == "phone_number")!.Value))
+            .ForMember(dest => dest.Address, opt => opt.ConvertUsing(new AddressLoginMapper(), src => src));
+
+        _ = CreateMap<AuthenticationResultType, LoginResult>()
+            .ForMember(dest => dest.AccessToken, opt => opt.MapFrom(src => src.AccessToken))
+            .ForMember(dest => dest.TokenType, opt => opt.MapFrom(src => src.TokenType))
+            .ForMember(dest => dest.ExpiresIn, opt => opt.MapFrom(src => src.ExpiresIn))
+            .ForMember(dest => dest.IdToken, opt => opt.MapFrom(src => src.IdToken))
+            .ForMember(dest => dest.RefreshToken, opt => opt.MapFrom(src => src.RefreshToken));
     }
 }

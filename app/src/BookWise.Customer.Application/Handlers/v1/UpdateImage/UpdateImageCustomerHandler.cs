@@ -1,5 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Text.Json;
+using AutoMapper;
+using BookWise.Customer.Application.Exceptions;
 using BookWise.Customer.Application.Helpers;
+using BookWise.Customer.Infrastructure.Auths.Abstractions;
 using BookWise.Customer.Infrastructure.Buckets.Abstractions;
 using BookWise.Customer.Infrastructure.LogAudit.Abstractions;
 using BookWise.Customer.Infrastructure.LogAudit.Dtos;
@@ -7,11 +10,8 @@ using BookWise.Customer.Infrastructure.LogAudit.Enums;
 using BookWise.Customer.Infrastructure.Notifications.Abstraction;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
-using BookWise.Customer.Application.Exceptions;
-using BookWise.Customer.Infrastructure.Auths.Abstractions;
 
-namespace BookWise.Customer.Application.Handlers.v1.Customer.UpdateImage;
+namespace BookWise.Customer.Application.Handlers.v1.UpdateImage;
 
 public sealed class UpdateImageCustomerHandler : IRequestHandler<UpdateImageCustomerCommand, UpdateImageCustomerResult>
 {
@@ -70,10 +70,9 @@ public sealed class UpdateImageCustomerHandler : IRequestHandler<UpdateImageCust
         catch (Exception ex)
         {
             var msg = "Erro indefinido ao atualizar imagem do usuario";
-            NotificationHelper.Notificar(ex, msg, _notificationService, _logger);
+            NotificationHelper.Notificar(ex, ex.Message, _notificationService, _logger);
+            throw new InternalServerErrorException(msg);
         }
-
-        return new UpdateImageCustomerResult();
     }
 
     private Task AuditarOperacao(object request)

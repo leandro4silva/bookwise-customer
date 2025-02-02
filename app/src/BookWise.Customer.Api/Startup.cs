@@ -3,6 +3,7 @@ using BookWise.Customer.Application;
 using BookWise.Customer.Infrastructure;
 using BookWise.Customer.Infrastructure.Extensions;
 using Amazon.Lambda.AspNetCoreServer.Hosting;
+using BookWise.Customer.Api.Filters;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 
@@ -28,9 +29,9 @@ public class Startup
         services.AddServices();
         services.AddApplication();
         services.AddAwsServices(builder.Configuration);
-
-
-        services.AddControllers()
+        
+        services.AddControllers(options =>
+            options.Filters.Add(typeof(ApiGlobalExceptionFilter)))
             .AddFluentValidation(x => x.AutomaticValidationEnabled = false)
             .AddCustomJsonOptions()
             .ConfigureApiBehaviorOptions(options =>

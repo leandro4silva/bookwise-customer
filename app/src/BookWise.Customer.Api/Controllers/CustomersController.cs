@@ -1,6 +1,6 @@
 ﻿using BookWise.Customer.Application.Common.Models;
-using BookWise.Customer.Application.Handlers.v1.Customer.Create;
-using BookWise.Customer.Application.Handlers.v1.Customer.UpdateImage;
+using BookWise.Customer.Application.Handlers.v1.Create;
+using BookWise.Customer.Application.Handlers.v1.UpdateImage;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +19,7 @@ public class CustomersController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(BaseResponse<CreateCustomerResult>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(BaseResponse<CreateCustomerResult>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post(
@@ -40,13 +40,5 @@ public class CustomersController : ControllerBase
         var response = await _mediator.Send(request, cancellationToken);
 
         return Ok(response);
-    }
-    
-    [HttpGet]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Get(CancellationToken cancellationToken)
-    {
-        return Ok("Ok");
     }
 }

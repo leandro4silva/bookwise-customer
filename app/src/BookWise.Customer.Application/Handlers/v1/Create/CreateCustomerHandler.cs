@@ -1,21 +1,21 @@
-﻿using AutoMapper;
+﻿using System.Text.Json;
+using AutoMapper;
+using BookWise.Customer.Application.Exceptions;
 using BookWise.Customer.Application.Helpers;
 using BookWise.Customer.Domain.Events;
-using BookWise.Customer.Domain.Repositories;
+using BookWise.Customer.Infrastructure.Auths.Abstractions;
+using BookWise.Customer.Infrastructure.Configurations;
+using BookWise.Customer.Infrastructure.LogAudit.Abstractions;
+using BookWise.Customer.Infrastructure.LogAudit.Dtos;
+using BookWise.Customer.Infrastructure.LogAudit.Enums;
+using BookWise.Customer.Infrastructure.MessageBus.Abstraction;
 using BookWise.Customer.Infrastructure.Notifications.Abstraction;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using DomainEntity = BookWise.Customer.Domain.Entities;
-using BookWise.Customer.Infrastructure.MessageBus.Abstraction;
-using BookWise.Customer.Infrastructure.Configurations;
 using Microsoft.Extensions.Options;
-using BookWise.Customer.Infrastructure.LogAudit.Dtos;
-using BookWise.Customer.Infrastructure.LogAudit.Enums;
-using System.Text.Json;
-using BookWise.Customer.Infrastructure.Auths.Abstractions;
-using BookWise.Customer.Infrastructure.LogAudit.Abstractions;
+using DomainEntity = BookWise.Customer.Domain.Entities;
 
-namespace BookWise.Customer.Application.Handlers.v1.Customer.Create;
+namespace BookWise.Customer.Application.Handlers.v1.Create;
 
 public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, CreateCustomerResult>
 {
@@ -69,14 +69,15 @@ public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerComman
             await _cognitoService.RegisterCustomerAsync(customer, cancellationToken);
             
             _eventProcessor.Process(customer.Events, _createCustomerSqsConfiguration.SqsQueueUrl!, cancellationToken);
+            
+            return _mapper.Map<CreateCustomerResult>(customer);
         }
         catch (Exception ex)
         {
             var msg = "Erro indefinido no cadastro de usuario";
             NotificationHelper.Notificar(ex, msg, _notificationService, _logger);
+            throw new InternalServerErrorException(msg);
         }
-
-        return _mapper.Map<CreateCustomerResult>(customer);
     }
 
     private Task AuditarOperacao(object request)

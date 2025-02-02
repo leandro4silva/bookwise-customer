@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BookWise.Customer.Application.Handlers.v1.Customer.Create;
+using BookWise.Customer.Application.Handlers.v1.Create;
 using BookWise.Customer.Domain.ValueObjects;
 
 namespace BookWise.Customer.Application.Mappers;

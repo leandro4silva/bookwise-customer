@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace BookWise.Customer.Application.Handlers.v1.Customer.Create;
+namespace BookWise.Customer.Application.Handlers.v1.Create;
 
 public sealed class CreateCustomerResult
 {

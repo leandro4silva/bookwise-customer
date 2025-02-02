@@ -3,7 +3,7 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace BookWise.Customer.Api.Middlewares;
+namespace BookWise.Customer.Api.Filters;
 
 public class ApiGlobalExceptionFilter : IExceptionFilter
 {
@@ -25,6 +25,20 @@ public class ApiGlobalExceptionFilter : IExceptionFilter
             details.Title = "Not found";
             details.Status = StatusCodes.Status404NotFound;
             details.Type = "NotFound";
+            details.Detail = exception.Message;
+        }
+        else if (exception is UserNotConfirmedException)
+        {
+            details.Title = "Bad Request";
+            details.Status = StatusCodes.Status400BadRequest;
+            details.Type = "Bad Request";
+            details.Detail = exception.Message;
+        }
+        else if (exception is InternalServerErrorException)
+        {
+            details.Title = "InternalServerError";
+            details.Status = StatusCodes.Status500InternalServerError;
+            details.Type = "InternalServerError";
             details.Detail = exception.Message;
         }
         else

@@ -8,7 +8,7 @@ public interface ICognitoService
 
     Task<bool> UpdateImageCustomerAsync(string email, string picture, CancellationToken cancellationToken);
 
-    Task<string> LoginCustomerAsync(Domain.Entities.Customer customer, CancellationToken cancellationToken);
+    Task<AuthenticationResultType> LoginCustomerAsync(Domain.Entities.Customer customer, CancellationToken cancellationToken);
     
     Task<AdminGetUserResponse> GetCustomerAsync(string email, CancellationToken cancellationToken);
 }

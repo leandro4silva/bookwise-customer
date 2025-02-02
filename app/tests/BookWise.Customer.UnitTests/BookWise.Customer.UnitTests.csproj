@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\v1\Handlers\Customer\UpdateImage\" />
+    <Folder Include="Application\v1\Handlers\UpdateImage\" />
   </ItemGroup>
 
 </Project>

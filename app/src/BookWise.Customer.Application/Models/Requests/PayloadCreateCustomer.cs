@@ -1,15 +1,6 @@
-﻿using BookWise.Customer.Application.Models.Requests;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace BookWise.Customer.Application.Handlers.v1.Customer.Create;
-
-public sealed class CreateCustomerCommand : IRequest<CreateCustomerResult>
-{
-    [FromBody]
-    public PayloadCreateCustomer? Payload { get; set; }
-}
+namespace BookWise.Customer.Application.Models.Requests;
 
 public sealed class PayloadCreateCustomer
 {

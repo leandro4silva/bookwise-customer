@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using BookWise.Customer.Application.Handlers.v1.Customer.Create;
+using BookWise.Customer.Application.Handlers.v1.Create;
 using BookWise.Customer.Domain.Events;
 using BookWise.Customer.Domain.Events.Abstraction;
-using BookWise.Customer.Domain.Repositories;
 using BookWise.Customer.Infrastructure.Auths.Abstractions;
 using BookWise.Customer.Infrastructure.Configurations;
 using BookWise.Customer.Infrastructure.LogAudit.Abstractions;
@@ -18,7 +17,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using DomainEntity = BookWise.Customer.Domain.Entities;
 
-namespace BookWise.Customer.UnitTests.Application.v1.Handlers.Customer.Create;
+namespace BookWise.Customer.UnitTests.Application.v1.Handlers.Create;
 
 public class CreateCustomerHandlerTests
 {
