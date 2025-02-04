@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using BookWise.Customer.Application.Handlers.v1.Create;
+using BookWise.Customer.Application.Handlers.v1.RegistrationCustomer;
 using BookWise.Customer.Domain.ValueObjects;
 
 namespace BookWise.Customer.Application.Mappers;
 
-public sealed class AddressRequestMapper : IValueConverter<CreateCustomerCommand, CustomerAddress>
+public sealed class AddressRequestMapper : IValueConverter<RegistrationCustomerCommand, CustomerAddress>
 {
-    public CustomerAddress Convert(CreateCustomerCommand sourceMember, ResolutionContext context)
+    public CustomerAddress Convert(RegistrationCustomerCommand sourceMember, ResolutionContext context)
     {
         return new CustomerAddress()
         {

@@ -1,6 +1,7 @@
 ﻿using BookWise.Customer.Application.Common.Models;
-using BookWise.Customer.Application.Handlers.v1.Create;
-using BookWise.Customer.Application.Handlers.v1.UpdateImage;
+using BookWise.Customer.Application.Handlers.v1.ConfirmRegistrationCustomer;
+using BookWise.Customer.Application.Handlers.v1.RegistrationCustomer;
+using BookWise.Customer.Application.Handlers.v1.UpdateImageCustomer;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,22 +20,34 @@ public class CustomersController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(BaseResponse<CreateCustomerResult>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(BaseResponse<RegistrationCustomerResult>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Post(
-        CreateCustomerCommand request, CancellationToken cancellationToken)
+    public async Task<IActionResult> RegisterCustomer(
+        RegistrationCustomerCommand request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);
 
-        return CreatedAtAction(nameof(Post), response);
+        return CreatedAtAction(nameof(RegisterCustomer), response);
+    }
+    
+    [HttpPost("confirm-registration")]
+    [ProducesResponseType(typeof(BaseResponse<ConfirmRegistrationCustomerResult>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> ConfirmRegistration(
+        ConfirmRegistrationCustomerCommand request, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(request, cancellationToken);
+
+        return Ok(response);
     }
 
     [HttpPatch("image")]
     [ProducesResponseType(typeof(BaseResponse<UpdateImageCustomerResult>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Patch(
+    public async Task<IActionResult> UpdateCustomerImage(
         UpdateImageCustomerCommand request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);

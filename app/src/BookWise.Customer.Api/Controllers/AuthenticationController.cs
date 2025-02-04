@@ -1,5 +1,5 @@
 ﻿using BookWise.Customer.Application.Common.Models;
-using BookWise.Customer.Application.Handlers.v1.Login;
+using BookWise.Customer.Application.Handlers.v1.LoginCustomer;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,11 +18,11 @@ public sealed class AuthenticationController : ControllerBase
     }
     
     [HttpPost]
-    [ProducesResponseType(typeof(BaseResponse<LoginResult>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(BaseResponse<LoginCustomerResult>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post(
-        LoginCommand request, CancellationToken cancellationToken)
+        LoginCustomerCommand request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);
 

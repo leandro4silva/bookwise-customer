@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace BookWise.Customer.Application.Handlers.v1.Login;
+namespace BookWise.Customer.Application.Handlers.v1.LoginCustomer;
 
-public sealed class LoginValidator : AbstractValidator<LoginCommand>
+public sealed class LoginCustomerValidator : AbstractValidator<LoginCustomerCommand>
 {
-    public LoginValidator()
+    public LoginCustomerValidator()
     {
         RuleFor(x => x.Payload!.Email)
             .EmailAddress()

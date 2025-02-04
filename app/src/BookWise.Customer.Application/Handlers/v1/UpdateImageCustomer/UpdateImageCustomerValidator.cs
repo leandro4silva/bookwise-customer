@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace BookWise.Customer.Application.Handlers.v1.UpdateImage;
+namespace BookWise.Customer.Application.Handlers.v1.UpdateImageCustomer;
 
 public class UpdateImageCustomerValidator : AbstractValidator<UpdateImageCustomerCommand>
 {

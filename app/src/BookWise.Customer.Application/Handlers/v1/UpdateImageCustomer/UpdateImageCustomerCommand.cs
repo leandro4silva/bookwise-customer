@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookWise.Customer.Application.Handlers.v1.UpdateImage;
+namespace BookWise.Customer.Application.Handlers.v1.UpdateImageCustomer;
 
 public sealed class UpdateImageCustomerCommand : IRequest<UpdateImageCustomerResult>
 {

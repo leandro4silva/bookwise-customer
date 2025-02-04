@@ -1,15 +1,15 @@
 ﻿using Bogus;
-using BookWise.Customer.Application.Handlers.v1.Create;
+using BookWise.Customer.Application.Handlers.v1.RegistrationCustomer;
 using BookWise.Customer.Application.Models.Requests;
 using BookWise.Customer.UtilTests.Builders.Base;
 
 namespace BookWise.Customer.UtilTests.Builders.Application.v1.Command;
 
-public sealed class CreateCustomerCommandBuilder : LazyFakerBuilder<CreateCustomerCommand>
+public sealed class CreateCustomerCommandBuilder : LazyFakerBuilder<RegistrationCustomerCommand>
 {
     public static CreateCustomerCommandBuilder Instance { get; } = new();
 
-    protected override Faker<CreateCustomerCommand> Factory()
+    protected override Faker<RegistrationCustomerCommand> Factory()
     {
         var address = new Faker<AddressRequest>()
             .RuleFor(op => op.City, setter => setter.Address.City())
@@ -25,7 +25,7 @@ public sealed class CreateCustomerCommandBuilder : LazyFakerBuilder<CreateCustom
             .RuleFor(op => op.PhoneNumber, setter => setter.Person.Phone)
             .RuleFor(op => op.Address, _ => address.Generate());
 
-        return new Faker<CreateCustomerCommand>("pt_BR")
+        return new Faker<RegistrationCustomerCommand>("pt_BR")
             .RuleFor(op => op.Payload, _ => payload.Generate());
     }
 }

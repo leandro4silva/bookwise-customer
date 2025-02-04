@@ -1,5 +1,5 @@
 ﻿using BookWise.Customer.Application.Common;
-using BookWise.Customer.Application.Handlers.v1.Create;
+using BookWise.Customer.Application.Handlers.v1.RegistrationCustomer;
 using BookWise.Customer.Application.Mappers;
 using FluentValidation;
 using MediatR;
@@ -14,11 +14,10 @@ public static class DependencyInjection
     {
         #region MediatR
 
-        services.AddMediatR(typeof(CreateCustomerHandler));
+        services.AddMediatR(typeof(RegistrationCustomerHandler));
         services.AddAutoMapperProfiles();
         
-        services.AddValidatorsFromAssembly(typeof(CreateCustomerValidator).Assembly);
-        
+        services.AddValidatorsFromAssembly(typeof(RegistrationCustomerValidator).Assembly);
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         #endregion

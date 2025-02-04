@@ -12,22 +12,22 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using UserNotConfirmedException = BookWise.Customer.Application.Exceptions.UserNotConfirmedException;
 
-namespace BookWise.Customer.Application.Handlers.v1.Login;
+namespace BookWise.Customer.Application.Handlers.v1.LoginCustomer;
 
-public sealed class LoginHandler : IRequestHandler<LoginCommand, LoginResult>
+public sealed class LoginCustomerHandler : IRequestHandler<LoginCustomerCommand, LoginCustomerResult>
 {
     private readonly ICognitoService _cognitoService;
     private readonly IMapper _mapper;
     private readonly ILogAuditService _logAuditService;
     private readonly INotificationService _notificationService;
-    private readonly ILogger<LoginHandler> _logger;
+    private readonly ILogger<LoginCustomerHandler> _logger;
     
-    public LoginHandler(
+    public LoginCustomerHandler(
         ICognitoService cognitoService, 
         IMapper mapper, 
         ILogAuditService logAuditService, 
         INotificationService notificationService, 
-        ILogger<LoginHandler> logger)
+        ILogger<LoginCustomerHandler> logger)
     {
         _cognitoService = cognitoService;
         _mapper = mapper;
@@ -36,14 +36,14 @@ public sealed class LoginHandler : IRequestHandler<LoginCommand, LoginResult>
         _logger = logger;
     }
     
-    public async Task<LoginResult> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<LoginCustomerResult> Handle(LoginCustomerCommand request, CancellationToken cancellationToken)
     {
         _ = AuditarOperacao(request);
         
         return await LoginAsync(request, cancellationToken);
     }
 
-    private async Task<LoginResult> LoginAsync(LoginCommand request, CancellationToken cancellationToken)
+    private async Task<LoginCustomerResult> LoginAsync(LoginCustomerCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -55,7 +55,7 @@ public sealed class LoginHandler : IRequestHandler<LoginCommand, LoginResult>
 
             var token = await _cognitoService.LoginCustomerAsync(customer, cancellationToken);
             
-            return _mapper.Map<LoginResult>(token);
+            return _mapper.Map<LoginCustomerResult>(token);
         }
         catch (Amazon.CognitoIdentityProvider.Model.UserNotConfirmedException ex) when (ex.StatusCode == HttpStatusCode.BadRequest)
         {

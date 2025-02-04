@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace BookWise.Customer.Application.Handlers.v1.Create;
+namespace BookWise.Customer.Application.Handlers.v1.RegistrationCustomer;
 
-public sealed class CreateCustomerValidator : AbstractValidator<CreateCustomerCommand>
+public sealed class RegistrationCustomerValidator : AbstractValidator<RegistrationCustomerCommand>
 {
-    public CreateCustomerValidator()
+    public RegistrationCustomerValidator()
     {
         RuleFor(x => x.Payload!.Email)
             .NotEmpty()

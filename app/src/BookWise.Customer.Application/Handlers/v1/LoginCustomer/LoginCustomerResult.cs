@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace BookWise.Customer.Application.Handlers.v1.Login;
+namespace BookWise.Customer.Application.Handlers.v1.LoginCustomer;
 
-public sealed class LoginResult 
+public sealed class LoginCustomerResult 
 {
     [JsonPropertyName("accessToken")]
     public string? AccessToken { get; set; }

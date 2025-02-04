@@ -11,7 +11,7 @@ using BookWise.Customer.Infrastructure.Notifications.Abstraction;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace BookWise.Customer.Application.Handlers.v1.UpdateImage;
+namespace BookWise.Customer.Application.Handlers.v1.UpdateImageCustomer;
 
 public sealed class UpdateImageCustomerHandler : IRequestHandler<UpdateImageCustomerCommand, UpdateImageCustomerResult>
 {

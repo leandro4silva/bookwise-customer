@@ -1,8 +1,9 @@
 ﻿using Amazon.CognitoIdentityProvider.Model;
 using AutoMapper;
-using BookWise.Customer.Application.Handlers.v1.Create;
-using BookWise.Customer.Application.Handlers.v1.Login;
-using BookWise.Customer.Application.Handlers.v1.UpdateImage;
+using BookWise.Customer.Application.Handlers.v1.ConfirmRegistrationCustomer;
+using BookWise.Customer.Application.Handlers.v1.LoginCustomer;
+using BookWise.Customer.Application.Handlers.v1.RegistrationCustomer;
+using BookWise.Customer.Application.Handlers.v1.UpdateImageCustomer;
 using BookWise.Customer.Domain.Events;
 using DomainEntity = BookWise.Customer.Domain.Entities;
 
@@ -12,7 +13,7 @@ public sealed class CustomerProfile : Profile
 {
     public CustomerProfile()
     {
-        _ = CreateMap<CreateCustomerCommand, DomainEntity.Customer>()
+        _ = CreateMap<RegistrationCustomerCommand, DomainEntity.Customer>()
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Payload!.Email))
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Payload!.FullName))
             .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.Payload!.BirthDate))
@@ -25,7 +26,7 @@ public sealed class CustomerProfile : Profile
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName));
 
-        _ = CreateMap<DomainEntity.Customer, CreateCustomerResult>()
+        _ = CreateMap<DomainEntity.Customer, RegistrationCustomerResult>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
         
         _ = CreateMap<AdminGetUserResponse, UpdateImageCustomerResult>()
@@ -44,11 +45,14 @@ public sealed class CustomerProfile : Profile
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.UserAttributes.Find(x => x.Name == "phone_number")!.Value))
             .ForMember(dest => dest.Address, opt => opt.ConvertUsing(new AddressLoginMapper(), src => src));
 
-        _ = CreateMap<AuthenticationResultType, LoginResult>()
+        _ = CreateMap<AuthenticationResultType, LoginCustomerResult>()
             .ForMember(dest => dest.AccessToken, opt => opt.MapFrom(src => src.AccessToken))
             .ForMember(dest => dest.TokenType, opt => opt.MapFrom(src => src.TokenType))
             .ForMember(dest => dest.ExpiresIn, opt => opt.MapFrom(src => src.ExpiresIn))
             .ForMember(dest => dest.IdToken, opt => opt.MapFrom(src => src.IdToken))
             .ForMember(dest => dest.RefreshToken, opt => opt.MapFrom(src => src.RefreshToken));
+        
+        _ = CreateMap<bool, ConfirmRegistrationCustomerResult>()
+            .ForMember(dest => dest.Message, opt => opt.MapFrom(src => "Usuario confirmado com sucesso!"));
     }
 }

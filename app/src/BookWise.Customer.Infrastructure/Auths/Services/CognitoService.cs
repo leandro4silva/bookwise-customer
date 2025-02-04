@@ -50,7 +50,29 @@ public sealed class CognitoService : ICognitoService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
+            _logger.LogError(ex, "An error occurred during registration: {Message}", ex.Message);
+            throw;
+        }
+    }
+    
+    public async Task<bool> ConfirmRegistrationAsync(string email, string confirmationCode, CancellationToken cancellationToken)
+    {
+        var request = new ConfirmSignUpRequest
+        {
+            ClientId = _cognitoConfig.ClientId,
+            SecretHash = GenerateSecretHash(email, _cognitoConfig.ClientId!, _cognitoConfig.ClientSecret!),
+            Username = email,
+            ConfirmationCode = confirmationCode
+        };
+
+        try
+        {
+            var response = await _cognitoProvider.ConfirmSignUpAsync(request, cancellationToken);
+            return response.HttpStatusCode == HttpStatusCode.OK;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred during registration confirmation: {Message}", ex.Message);
             throw;
         }
     }
@@ -99,7 +121,7 @@ public sealed class CognitoService : ICognitoService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
+            _logger.LogError(ex, "An error occurred during get data user: {Message}", ex.Message);
             throw;
         }
     }
@@ -126,7 +148,7 @@ public sealed class CognitoService : ICognitoService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
+            _logger.LogError(ex, "An error occurred during update data user: {Message}", ex.Message);
             throw;
         }
     }

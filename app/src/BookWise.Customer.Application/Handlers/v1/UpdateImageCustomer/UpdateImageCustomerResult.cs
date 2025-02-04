@@ -1,6 +1,6 @@
 ﻿using BookWise.Customer.Application.Models.Responses;
 
-namespace BookWise.Customer.Application.Handlers.v1.UpdateImage;
+namespace BookWise.Customer.Application.Handlers.v1.UpdateImageCustomer;
 
 public sealed class UpdateImageCustomerResult
 {

@@ -15,11 +15,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using DomainEntity = BookWise.Customer.Domain.Entities;
 
-namespace BookWise.Customer.Application.Handlers.v1.Create;
+namespace BookWise.Customer.Application.Handlers.v1.RegistrationCustomer;
 
-public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, CreateCustomerResult>
+public sealed class RegistrationCustomerHandler : IRequestHandler<RegistrationCustomerCommand, RegistrationCustomerResult>
 {
-    private readonly ILogger<CreateCustomerHandler> _logger;
+    private readonly ILogger<RegistrationCustomerHandler> _logger;
     private readonly INotificationService _notificationService;
     private readonly IMapper _mapper;
     private readonly IEventProcessor _eventProcessor;
@@ -28,9 +28,9 @@ public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerComman
     private readonly ILogAuditService _logAuditService;
     private readonly ICognitoService _cognitoService;
 
-    public CreateCustomerHandler(
+    public RegistrationCustomerHandler(
         INotificationService notificationService,
-        ILogger<CreateCustomerHandler> logger,
+        ILogger<RegistrationCustomerHandler> logger,
         IMapper mapper,
         IEventProcessor eventProcessor,
         IOptionsMonitor<CreateCustomerSqsConfig> createCustomerSqsConfiguration,
@@ -48,14 +48,14 @@ public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerComman
         _cognitoService = cognitoService;
     }
 
-    public async Task<CreateCustomerResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
+    public async Task<RegistrationCustomerResult> Handle(RegistrationCustomerCommand request, CancellationToken cancellationToken)
     {
         _ = AuditarOperacao(request);
 
         return await CreateCustomerAsync(request, cancellationToken);
     }
 
-    private async Task<CreateCustomerResult> CreateCustomerAsync(CreateCustomerCommand request, CancellationToken cancellationToken)
+    private async Task<RegistrationCustomerResult> CreateCustomerAsync(RegistrationCustomerCommand request, CancellationToken cancellationToken)
     {
         var customer = _mapper.Map<DomainEntity.Customer>(request);
         customer.Image = _userImageConfig.ImageDefaultUrl;
@@ -70,7 +70,7 @@ public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerComman
             
             _eventProcessor.Process(customer.Events, _createCustomerSqsConfiguration.SqsQueueUrl!, cancellationToken);
             
-            return _mapper.Map<CreateCustomerResult>(customer);
+            return _mapper.Map<RegistrationCustomerResult>(customer);
         }
         catch (Exception ex)
         {
