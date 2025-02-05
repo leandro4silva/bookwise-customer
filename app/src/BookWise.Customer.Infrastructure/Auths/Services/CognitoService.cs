@@ -7,7 +7,6 @@ using BookWise.Customer.Infrastructure.Auths.Abstractions;
 using BookWise.Customer.Infrastructure.Auths.Dtos;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
-using InternalErrorException = Amazon.CognitoIdentity.Model.InternalErrorException;
 
 namespace BookWise.Customer.Infrastructure.Auths.Services;
 
@@ -73,6 +72,27 @@ public sealed class CognitoService : ICognitoService
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred during registration confirmation: {Message}", ex.Message);
+            throw;
+        }
+    }
+    
+    public async Task<ForgotPasswordResponse> ForgotPasswordAsync(string email, CancellationToken cancellationToken)
+    {
+        var request = new ForgotPasswordRequest
+        {
+            ClientId = _cognitoConfig.ClientId,
+            SecretHash = GenerateSecretHash(email, _cognitoConfig.ClientId!, _cognitoConfig.ClientSecret!),
+            Username = email
+        };
+
+        try
+        {
+            var response = await _cognitoProvider.ForgotPasswordAsync(request, cancellationToken);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred during password reset request: {Message}", ex.Message);
             throw;
         }
     }

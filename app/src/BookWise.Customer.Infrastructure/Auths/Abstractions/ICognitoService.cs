@@ -10,6 +10,8 @@ public interface ICognitoService
 
     Task<AuthenticationResultType> LoginCustomerAsync(Domain.Entities.Customer customer, CancellationToken cancellationToken);
 
+    Task<ForgotPasswordResponse> ForgotPasswordAsync(string email, CancellationToken cancellationToken);
+
     Task<bool> ConfirmRegistrationAsync(string email, string confirmationCode, CancellationToken cancellationToken);
     
     Task<AdminGetUserResponse> GetCustomerAsync(string email, CancellationToken cancellationToken);
